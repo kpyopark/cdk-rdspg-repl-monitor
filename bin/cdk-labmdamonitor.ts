@@ -5,3 +5,4 @@ import { CdkLabmdamonitorStack } from '../lib/cdk-labmdamonitor-stack';
 
 const app = new cdk.App();
 new CdkLabmdamonitorStack(app, 'CdkLabmdamonitorStack');
+
