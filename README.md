@@ -16,7 +16,24 @@ This cdk has some environment variables to support various environments. All env
  * S3_UPLOAD_BUCKET : the lambda source will be pacakged and uploaded into this s3 bucket.
  * VPC_ID : The lambda created by the cdk will be positioned in the target VPC.
  * RDS_MASTER_DNS : The lambda created by the cdk will try to connect this specified DNS.
- * SM_DB_PASS : The lambda create by the cdk will try to use userid/password values of this specified key from the AWS Secrets Manager.
+ * LAMBDA_SUBNETS : This stack will deploy Lambda Function on the subnet of the specified VPC. This values indicates the target subnet ids.
+ * RDS_MASTER_DNS : RDS endpoint to be monitored. 
+ * SM_DB_PASS_ARN : secret ARN which contains DB connection info - ex: arn:aws:secretsmanager:ap-northeast-2:xxxxxxx:secret:test/db_passkey-xxxx
+ * DB_NAME : rds database name - ex: dev
+
+# bin/cdk-labmdamonitor.ts 
+
+CDK doesn't allow the full functionality of aws-secretsmanager / aws-vpc without specifying AWS Account ID in the CDK applicatiton. 
+So you should modify bin/cdk-labmdamonitor.ts file to specify your AWS account id. 
+
+```
+new CdkLabmdamonitorStack(app, "CdkLabmdamonitorStack", {
+  env: {
+    account: "<your account id>",
+    region: "ap-northeast-2"
+  },
+});
+```
 
 # Before to launch
 
@@ -40,12 +57,20 @@ If you use 'test/db_passkey' as a value of SM_DB_PASS, you should set the same v
 }
 ```
 
-## Useful commands
+# Prerequsite. 
 
- * `npm run build`   compile typescript to js
- * `npm run watch`   watch for changes and compile
- * `npm run test`    perform the jest unit tests
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk synth`       emits the synthesized CloudFormation template
-# cdk-rdspg-repl-monitor
+This stack uses dockerizaing so you should docker (docker desktop on Windows) on your build environment.
+
+1. Install Node
+2. Install npm
+3. Install aws-cdk
+
+# Installation
+
+$ git clone https://github.com/kpyopark/cdk-rdspg-repl-monitor.git
+$ cd cdk-rdspg-repl-monitor
+$ npm update
+$ # modify cdk.json
+$ # modify bin/cdk-lambdamonitor.ts
+$ cdk deploy
+
