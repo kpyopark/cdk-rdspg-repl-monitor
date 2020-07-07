@@ -6,7 +6,7 @@ import { CdkLabmdamonitorStack } from '../lib/cdk-labmdamonitor-stack';
 const app = new cdk.App();
 new CdkLabmdamonitorStack(app, "CdkLabmdamonitorStack", {
   env: {
-    account: "431153255821",
+    account: "<your account id>",
     region: "ap-northeast-2"
   },
 });
